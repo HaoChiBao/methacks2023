@@ -167,7 +167,7 @@ export const VideoRoom = () => {
                       whiteKeys[i].color = 'red';
 
                       playNote(whiteKeys[i].note, '64n')
-                    }else if (whiteKeys[i].color == 'red' || pressedKeys == i){
+                    }else if (whiteKeys[i].color == 'red' || pressedKey == i){
                       whiteKeys[i].color = 'white';
                     }
                   }
@@ -178,7 +178,7 @@ export const VideoRoom = () => {
                       whiteKeys[i].color = 'red';
 
                       playNote(whiteKeys[i].note, '64n')
-                    }else if (whiteKeys[i].color == 'red' || pressedKeys == i){
+                    }else if (whiteKeys[i].color == 'red' || pressedKey == i){
                       whiteKeys[i].color = 'white';
                     }
                   }
@@ -189,7 +189,7 @@ export const VideoRoom = () => {
                       whiteKeys[i].color = 'red';
 
                       playNote(whiteKeys[i].note, '64n')
-                    }else if (whiteKeys[i].color == 'red' || pressedKeys == i){
+                    }else if (whiteKeys[i].color == 'red' || pressedKey == i){
                       whiteKeys[i].color = 'white';
                     }
                   }
@@ -200,7 +200,7 @@ export const VideoRoom = () => {
                       whiteKeys[i].color = 'red';
 
                       playNote(whiteKeys[i].note, '64n')
-                    }else if (whiteKeys[i].color == 'red' || pressedKeys == i){
+                    }else if (whiteKeys[i].color == 'red' || pressedKey == i){
                       whiteKeys[i].color = 'white';
                     }
                   }
