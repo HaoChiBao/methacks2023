@@ -7,13 +7,13 @@ import {drawLandmarks} from '@mediapipe/drawing_utils/drawing_utils';
 import {drawConnectors} from '@mediapipe/drawing_utils/drawing_utils';
 import {Camera} from '@mediapipe/camera_utils/camera_utils'
 
-import * as Tone from 'tone';
+// import * as Tone from 'tone';
 
 import "./buttonsBar.css"
 
 const APP_ID = 'fd724da3607e4f568c1775a94077234d';
 const TOKEN =
-  '007eJxTYNh+lJVzdtlv5SOdF9+4bvhrvjH+03w+gU9NHBusb4tcOpWkwJCWYm5kkpJobGZgnmqSZmpmkWxobm6aaGliYG5uZGySwnctNKUhkJHBPzKNgREKQXwWhtzEzDwGBgCZqx96';
+  '007eJxTYLj61nPdTMZkY7ZVB9YG7Q16lx4Y4X75xty7niWtbA5rLvkoMKSlmBuZpCQamxmYp5qkmZpZJBuam5smWpoYmJsbGZukfFUPT2kIZGT4wnyHmZEBAkF8FobcxMw8BgYAbgEfoA==';
 const CHANNEL = 'main';
 
 const client = AgoraRTC.createClient({
@@ -21,31 +21,44 @@ const client = AgoraRTC.createClient({
   codec: 'vp8',
 });
 
-const synth = new Tone.PolySynth(Tone.Synth).toDestination();
-
-const playNote = (note, duration) => {
-  // const now = Tone.now();
-  synth.triggerAttackRelease(note, duration);
-  // release
+const noteMap = {
+  'C4': './tunes/a.wav',
+  'D4': './tunes/s.wav',
+  'E4': './tunes/d.wav',
+  'F4': './tunes/f.wav',
+  'G4': './tunes/g.wav',
+  'A4': './tunes/h.wav',
+  'B4': './tunes/j.wav',
+  'C5': './tunes/k.wav',
+  'D5': './tunes/l.wav',
+  'E5': './tunes/;.wav'
 }
 
-Tone.Transport.bpm.value = 120;
+const importAll = (r) => r.keys().map(r);
+const wavFiles = importAll(require.context('./tunes/notes', false, /\.(wav)$/));
 
-// const whiteKeys = [
-//   'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5'
-// ];
+console.log(wavFiles)
+
+const playNote = (note, duration) => {
+  // console.log(1)
+  let audio = new Audio(wavFiles[note]);
+  audio.play();
+}
+
 const whiteKeys = [
-  {'note': 'C4', 'color': 'white'},
-  {'note': 'D4', 'color': 'white'},
-  {'note': 'E4', 'color': 'white'},
-  {'note': 'F4', 'color': 'white'},
-  {'note': 'G4', 'color': 'white'},
-  {'note': 'A4', 'color': 'white'},
-  {'note': 'B4', 'color': 'white'},
-  {'note': 'C5', 'color': 'white'},
-  {'note': 'D5', 'color': 'white'},
-  {'note': 'E5', 'color': 'white'}
+  {'note': 0, 'color': 'white'},
+  {'note': 1, 'color': 'white'},
+  {'note': 2, 'color': 'white'},
+  {'note': 3, 'color': 'white'},
+  {'note': 4, 'color': 'white'},
+  {'note': 5, 'color': 'white'},
+  {'note': 6, 'color': 'white'},
+  {'note': 7, 'color': 'white'},
+  {'note': 8, 'color': 'white'},
+  {'note': 9, 'color': 'white'}
 ]
+
+
 
 // write whiteKeys in reverse order
 whiteKeys.reverse();

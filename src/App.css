@@ -85,3 +85,8 @@ body{
 }
 
 
+.border {
+  position: absolute;
+  width: 94%;
+  z-index: 100;
+}

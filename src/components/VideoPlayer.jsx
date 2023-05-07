@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import border from './images/border.png';
 
 export const VideoPlayer = ({ user }) => {
   const ref = useRef();
@@ -12,8 +13,9 @@ export const VideoPlayer = ({ user }) => {
 
   return (
     <div
-    style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+    style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}
     >
+      <img src={border} className = "border"/>
       {/* Uid: {user.uid} */}
       <div
         className='out-video'

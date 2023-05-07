@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { VideoRoom } from './components/VideoRoom';
 
-import myImage from './components/images/background.jpg';
+import myImage from './components/images/background2.jpg';
 
 import title from './components/images/title/main.gif';
 
