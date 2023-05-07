@@ -95,11 +95,28 @@ function getAngle(x1, y1, x2, y2) {
   return Math.atan2(y1-y2, x1-x2) * 180 / Math.PI;
 }
 
+let pianoState = false;
+function setPianoState(state){
+  pianoState = state;
+  let audio = new Audio(pianoNotes[0]);
+  audio.play();
+}
+
+let drumState = false;
+function setDrumState(state){
+  drumState = state;
+}
+
+let maracasState = false;
+function setMaracasState(state){
+  maracasState = state;
+}
+
 export const VideoRoom = () => {
   
-  const [pianoState, setPianoState] = useState(false) // true if piano is on
-  const [drumState, setDrumState] = useState(false) // true if drum is on
-  const [maracasState, setMaracasState] = useState(false) // true if maracas is on
+  // const [pianoState, setPianoState] = useState(true) // true if piano is on
+  // const [drumState, setDrumState] = useState(true) // true if drum is on
+  // const [maracasState, setMaracasState] = useState(true) // true if maracas is on
 
   // const [snareState, setSnareState] = useState(false) // true if snare is on
   
