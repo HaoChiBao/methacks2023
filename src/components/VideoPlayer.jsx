@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 
 export const VideoPlayer = ({ user }) => {
@@ -11,11 +11,14 @@ export const VideoPlayer = ({ user }) => {
   });
 
   return (
-    <div>
-      Uid: {user.uid}
+    <div
+    style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+    >
+      {/* Uid: {user.uid} */}
       <div
+        className='out-video'
         ref={ref}
-        style={{ width: '200px', height: '200px' }}
+        style={{ width: '90%', aspectRatio: '4/3'}}
       >
       </div>
     </div>

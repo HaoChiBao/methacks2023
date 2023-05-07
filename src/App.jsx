@@ -2,6 +2,10 @@ import { useState } from 'react';
 import './App.css';
 import { VideoRoom } from './components/VideoRoom';
 
+import myImage from './components/images/background.jpg';
+
+import title from './components/images/title/main.gif';
+
 window.onload = function () {
   const script0 = document.createElement("script");
   const script1 = document.createElement("script");
@@ -36,12 +40,18 @@ function App() {
   const [joined, setJoined] = useState(false);
   return (
     <div className="App">
-      <h1>Cum Call</h1>
+
+      <div className="wallpaper">
+        <img src = {myImage}/>
+      </div>
 
       {!joined && (
-        <button onClick={() => setJoined(true)}>
-          Join Room
-        </button>
+        <div className="title">
+          <button onClick={() => setJoined(true)}>
+            {/* <h1>PAPER ORCHESTRA</h1> */}
+            <img src={title} alt="" />
+          </button>
+        </div>
       )}
 
       {joined && <VideoRoom />}
