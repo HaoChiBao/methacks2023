@@ -9,6 +9,10 @@ import {Camera} from '@mediapipe/camera_utils/camera_utils'
 
 // import * as Tone from 'tone';
 
+import videoButton from './images/buttons/video.gif';
+import audioButton from './images/buttons/microphone.gif';
+import exitButton from './images/buttons/exit.gif';
+
 import "./buttonsBar.css"
 
 const APP_ID = 'fd724da3607e4f568c1775a94077234d';
@@ -27,9 +31,16 @@ const importAll = (r) => r.keys().map(r);
 
 const pianoNotes = importAll(require.context('./tunes/piano/notes', false, /\.(wav)$/));
 const snareNote = importAll(require.context('./tunes/snare', false, /\.(mp3)$/));
+const maracasNote = importAll(require.context('./tunes/maracas', false, /\.(mp3)$/));
 
 console.log(pianoNotes)
 console.log(snareNote)
+console.log(maracasNote)
+
+const playMaracas = () => {
+  let audio = new Audio(maracasNote[1]);
+  audio.play();
+}
 
 const playSnare = () => {
   let audio = new Audio(snareNote[0]);
@@ -72,13 +83,17 @@ function getDistance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
 }
 
+function getAngle(x1, y1, x2, y2) {
+  return Math.atan2(y1-y2, x1-x2) * 180 / Math.PI;
+}
+
 export const VideoRoom = () => {
   
-  const [pianoState, setPianoState] = useState(true) // true if piano is on
+  const [pianoState, setPianoState] = useState(false) // true if piano is on
   const [drumState, setDrumState] = useState(false) // true if drum is on
-  const [maracasState, setMaracasState] = useState(false) // true if maracas is on
+  const [maracasState, setMaracasState] = useState(true) // true if maracas is on
 
-  const [snareState, setSnareState] = useState(true) // true if snare is on
+  const [snareState, setSnareState] = useState(false) // true if snare is on
   
   useEffect(() => {
 
@@ -255,12 +270,6 @@ export const VideoRoom = () => {
                 }
               }
               
-              // // Stroke the path (draw the line)
-              // canvasCtx.stroke();
-              drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#B9FAF8', lineWidth: 5});
-              drawLandmarks(canvasCtx, landmarks, {color: '#A663CC', lineWidth: 2});
-             
-              
             }
 
             // snare
@@ -268,9 +277,28 @@ export const VideoRoom = () => {
               // console.log(getDistance(thumb.x, thumb.y, pinky.x, pinky.y))
               if (getDistance(thumb.x, thumb.y, pinky.x, pinky.y) < 0.045){
                 playSnare();
+                // playMaracas();
               }
-
+              
             }
+
+            if (maracasState){
+              const indexConnect = landmarks[5]
+              const middleConnect = landmarks[9]
+
+              const indexAngle = getAngle(indexConnect.x, indexConnect.y, index.x, index.y)
+              const middleAngle = getAngle(middleConnect.x, middleConnect.y, middle.x, middle.y)
+
+              if(indexAngle > 80 && indexAngle < 100 && middleAngle > 80 && middleAngle < 100){
+                playMaracas();
+              }
+              
+            }
+
+            // // Stroke the path (draw the line)
+            // canvasCtx.stroke();
+            drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#B9FAF8', lineWidth: 5});
+            drawLandmarks(canvasCtx, landmarks, {color: '#A663CC', lineWidth: 2});
           }
         }
 
@@ -377,9 +405,12 @@ export const VideoRoom = () => {
     };
   }, []);
 
-  const [videoIcon, setVideoIcon] = useState('https://www.svgrepo.com/show/310197/video.svg')
-    const [audioIcon, setAudioIcon] = useState('https://www.svgrepo.com/show/309778/mic-on.svg')
-    const [exitIcon, setExitIcon] = useState('https://www.svgrepo.com/show/309378/call-outbound.svg')
+  // const [videoIcon, setVideoIcon] = useState('https://www.svgrepo.com/show/310197/video.svg')
+  //   const [audioIcon, setAudioIcon] = useState('https://www.svgrepo.com/show/309778/mic-on.svg')
+  //   const [exitIcon, setExitIcon] = useState('https://www.svgrepo.com/show/309378/call-outbound.svg')
+  const [videoIcon, setVideoIcon] = useState(videoButton)
+    const [audioIcon, setAudioIcon] = useState(audioButton)
+    const [exitIcon, setExitIcon] = useState(exitButton)
 
   return (
     <div
@@ -410,7 +441,7 @@ export const VideoRoom = () => {
                   if(videoTrack.enabled){
                       setVideoIcon('https://www.svgrepo.com/show/310199/video-off.svg')
                   } else {
-                      setVideoIcon('https://www.svgrepo.com/show/310197/video.svg')
+                      setVideoIcon(videoButton)
                   }
               }catch(e){
                 console.log(e)
@@ -427,7 +458,7 @@ export const VideoRoom = () => {
                   if(audioTrack.enabled){
                       setAudioIcon('https://www.svgrepo.com/show/309777/mic-off.svg')
                   } else {
-                      setAudioIcon('https://www.svgrepo.com/show/309778/mic-on.svg')
+                      setAudioIcon(audioButton)
                   }
                 } catch(e){
                   console.log(e)
