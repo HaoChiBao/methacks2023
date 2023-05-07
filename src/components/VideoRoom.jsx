@@ -21,27 +21,24 @@ const client = AgoraRTC.createClient({
   codec: 'vp8',
 });
 
-const noteMap = {
-  'C4': './tunes/a.wav',
-  'D4': './tunes/s.wav',
-  'E4': './tunes/d.wav',
-  'F4': './tunes/f.wav',
-  'G4': './tunes/g.wav',
-  'A4': './tunes/h.wav',
-  'B4': './tunes/j.wav',
-  'C5': './tunes/k.wav',
-  'D5': './tunes/l.wav',
-  'E5': './tunes/;.wav'
-}
+
 
 const importAll = (r) => r.keys().map(r);
-const wavFiles = importAll(require.context('./tunes/notes', false, /\.(wav)$/));
 
-console.log(wavFiles)
+const pianoNotes = importAll(require.context('./tunes/piano/notes', false, /\.(wav)$/));
+const snareNote = importAll(require.context('./tunes/snare', false, /\.(mp3)$/));
+
+console.log(pianoNotes)
+console.log(snareNote)
+
+const playSnare = () => {
+  let audio = new Audio(snareNote[0]);
+  audio.play();
+}
 
 const playNote = (note, duration) => {
   // console.log(1)
-  let audio = new Audio(wavFiles[note]);
+  let audio = new Audio(pianoNotes[note]);
   audio.play();
 }
 
@@ -71,7 +68,18 @@ function isCoordinateInRect(x, y, rect) {
   return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 }
 
+function getDistance(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
+}
+
 export const VideoRoom = () => {
+  
+  const [pianoState, setPianoState] = useState(true) // true if piano is on
+  const [drumState, setDrumState] = useState(false) // true if drum is on
+  const [maracasState, setMaracasState] = useState(false) // true if maracas is on
+
+  const [snareState, setSnareState] = useState(true) // true if snare is on
+  
   useEffect(() => {
 
     const video = document.querySelector('.client-video')
@@ -122,7 +130,8 @@ export const VideoRoom = () => {
             
             // =-=-=-=-=-==-=- Instrument =-=-=-=-=-=-=-=-=
             
-            if (true){
+            // piano
+            if (pianoState){
               // Set the starting point and width of the line
               const startX = 0; // Starting x-coordinate
               const startY = 400; // Starting y-coordinate
@@ -252,6 +261,15 @@ export const VideoRoom = () => {
               drawLandmarks(canvasCtx, landmarks, {color: '#A663CC', lineWidth: 2});
              
               
+            }
+
+            // snare
+            if (snareState){
+              // console.log(getDistance(thumb.x, thumb.y, pinky.x, pinky.y))
+              if (getDistance(thumb.x, thumb.y, pinky.x, pinky.y) < 0.045){
+                playSnare();
+              }
+
             }
           }
         }

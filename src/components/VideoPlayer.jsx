@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import border from './images/border.png';
+import border from './images/border.gif';
 
 export const VideoPlayer = ({ user }) => {
   const ref = useRef();

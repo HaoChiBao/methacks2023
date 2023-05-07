@@ -20,7 +20,7 @@ body{
 
 .wallpaper img{
   height: 200%;
-  width: 200%;
+  /* width: 200%; */
   object-fit: cover;
 
   animation: diagonal-move-anim 80s linear infinite;
@@ -87,6 +87,6 @@ body{
 
 .border {
   position: absolute;
-  width: 94%;
+  width: 94.5%;
   z-index: 100;
 }
