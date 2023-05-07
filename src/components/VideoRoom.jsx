@@ -13,6 +13,14 @@ import videoButton from './images/buttons/video.gif';
 import audioButton from './images/buttons/microphone.gif';
 import exitButton from './images/buttons/exit.gif';
 
+import pianoRest from './images/buttons/piano.png'
+import drumRest from './images/buttons/drum.png';
+import maracasRest from './images/buttons/maracas.png';
+
+import pianoAct from './images/buttons/piano.gif'
+import drumAct from './images/buttons/drum.gif';
+import maracasAct from './images/buttons/maracas.gif';
+
 import "./buttonsBar.css"
 
 const APP_ID = 'fd724da3607e4f568c1775a94077234d';
@@ -91,9 +99,9 @@ export const VideoRoom = () => {
   
   const [pianoState, setPianoState] = useState(false) // true if piano is on
   const [drumState, setDrumState] = useState(false) // true if drum is on
-  const [maracasState, setMaracasState] = useState(true) // true if maracas is on
+  const [maracasState, setMaracasState] = useState(false) // true if maracas is on
 
-  const [snareState, setSnareState] = useState(false) // true if snare is on
+  // const [snareState, setSnareState] = useState(false) // true if snare is on
   
   useEffect(() => {
 
@@ -145,6 +153,7 @@ export const VideoRoom = () => {
             
             // =-=-=-=-=-==-=- Instrument =-=-=-=-=-=-=-=-=
             
+            console.log(pianoState, drumState, maracasState)
             // piano
             if (pianoState){
               // Set the starting point and width of the line
@@ -273,7 +282,7 @@ export const VideoRoom = () => {
             }
 
             // snare
-            if (snareState){
+            if (drumState){
               // console.log(getDistance(thumb.x, thumb.y, pinky.x, pinky.y))
               if (getDistance(thumb.x, thumb.y, pinky.x, pinky.y) < 0.045){
                 playSnare();
@@ -283,13 +292,14 @@ export const VideoRoom = () => {
             }
 
             if (maracasState){
+              const maracasDistance = getDistance(middle.x, middle.y, index.x, index.y)
               const indexConnect = landmarks[5]
               const middleConnect = landmarks[9]
 
               const indexAngle = getAngle(indexConnect.x, indexConnect.y, index.x, index.y)
               const middleAngle = getAngle(middleConnect.x, middleConnect.y, middle.x, middle.y)
-
-              if(indexAngle > 80 && indexAngle < 100 && middleAngle > 80 && middleAngle < 100){
+              // console.log(maracasDistance)
+              if(indexAngle > 80 && indexAngle < 100 && middleAngle > 80 && middleAngle < 100 && maracasDistance < 0.05){
                 playMaracas();
               }
               
@@ -412,6 +422,13 @@ export const VideoRoom = () => {
     const [audioIcon, setAudioIcon] = useState(audioButton)
     const [exitIcon, setExitIcon] = useState(exitButton)
 
+    const [pianoButton, setPianoButton] = useState(pianoRest)
+    const [drumButton, setDrumButton] = useState(drumRest)
+    const [maracasButton, setMaracasButton] = useState(maracasRest)
+    // const [pianoON, setPianoON] = useState(false)
+    // const [drumON, setDrumON] = useState(false)
+    // const [maracasON, setMaracasON] = useState(false)
+
   return (
     <div
       style={{ display: 'flex', justifyContent: 'center' }}
@@ -429,6 +446,29 @@ export const VideoRoom = () => {
         ))}
 
       </div>
+          <div className="instrument-bar">
+            <button onClick={() => {
+              if(pianoState){setPianoButton(pianoRest)} 
+              else {setPianoButton(pianoAct)}
+              setPianoState(!pianoState)
+            }}>
+              <img src = {pianoButton}/>
+            </button>
+            <button onClick={() => {
+              if(drumState){setDrumButton(drumRest)} 
+              else {setDrumButton(drumAct)}
+              setDrumState(!drumState)
+            }}>
+              <img src = {drumButton}/>
+            </button>
+            <button onClick={() => {
+              if(maracasState){setMaracasButton(maracasRest)} 
+              else {setMaracasButton(maracasAct)}
+              setMaracasState(!maracasState)
+            }}>
+              <img src = {maracasButton}/>
+            </button>
+          </div>
       
           {/* buttons bar */}
           <div className="buttonsBar">
